@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+<div>
+    <header class="bg-purple-950 w-screen h-60 relative">
+        <h1 class="absolute text-white text-5xl" style="font-family: 'Times New Roman'; top: 50px; left: 50%; transform: translateX(-50%); font-weight: bolder;">TO DO LIST</h1>
+        <input type="text" id="checkbox" placeholder="Create a new todo..." class="bg-purple-300 relative p-2 border-gray-300 rounded-1g focus:outline-none focus:ring-2 focus:ring-blue-500 w-[600px]" style="top: 100px; left: 50%; transform: translateX(-50%); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" />
+        <button id="addTodo" class="absolute bg-blue-500 text-white p-2 rounded" style="top: 100px; left: calc(50% + 300px); transform: translateX(-50%);">Add</button>
+    </header>
+    <div id="list" class="mt-4">
+    </div>
+    <div class="relative w-[600px] h-[50px] bg-purple-300 flex justify-evenly mt-4" style="left: 500px; bottom: 20px; border: 2px solid orange;">
+        <span class="">items left</span>
+        <span id="all" class="text-purple-900 cursor-pointer hover:text-blue-900" style="font-weight: bolder;">All</span>
+        <span id="active" class="text-purple-900 cursor-pointer hover:text-blue-900" style="font-weight: bolder;">Active</span>
+        <span id="completed" class="text-purple-900 cursor-pointer hover:text-blue-900" style="font-weight: bolder;">Completed</span>
+        <span id="clear" class="text-purple-900 cursor-pointer hover:text-blue-900" style="font-weight: bolder;">Clear Completed</span>
+    </div>
+</div>
+<script>
+const all=document.getElementById('all');
+const active=document.getElementById('active');
+const completed=document.getElementById('completed')
+const clear=document.getElementById('clear');
+const addTodo=document.getElementById('addTodo');
+const inputfield=document.getElementById('checkbox')
+
+
+let toDoList=[];
+
+addTodo.addEventListener('click',()=>{
+if(inputfield.value.trim()!==''){
+addToList();
+inputfield.value='';
+
+}
+all.addEventListener('click',()=>{
+
+    renderList(toDoList);
+});
+
+active.addEventListener('click',()=>{
+renderList(toDoList.filter(item=>{
+!item.completed;
+}))
+})
+
+
+completed.addEventListener('click',()=>{
+console.log(toDoList.filter(item=>item.completed))
+    renderList(toDoList.filter(item=>item.completed))
+})
+
+
+clear.addEventListener('click',()=>{
+
+    toDoList=toDoList.filter(item=>!item.completed);
+    renderList(toDoList);
+})
+
+function addToList(){
+    const data=inputfield.value;
+    const listItem={
+        text:data,
+        completed:false
+    }
+    todoList.push(listItem);
+    renderList(todoList);
+}
+    const toDoList=document.getElementById('list');
+
+
+    //method 
+function renderList(List){
+
+
+    toDoList.innerHTML='';//clear existing items
+
+
+    list.array.forEach((item,index) => {
+       const listElement=document.createElement('div');
+       listElement.classList.add('list');
+       
+       const holder=document.getElementById('h3');
+       holder.classList.add('title');
+       holder.innerText=item.text;
+       if(item.completed){
+
+        holder.style.textDecoration='line-through';
+       }
+
+       listElement.appendChild(holder);
+       const checkBox2 = document.createElement('input');
+        checkBox2.type = 'checkbox';
+        checkBox2.classList.add('checky');
+        checkBox2.checked = item.completed;
+ 
+                 checkBox2.addEventListener('click',()=>{
+
+                    item.completed=checkBox2.checked;
+                    renderList(todoList);//Re-render the list
+                 })
+
+
+            listElement.appendChild(checkBox2);
+
+            toDoList.appendChild(listElement);
+    });
+    
+}
+
+
+
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>
